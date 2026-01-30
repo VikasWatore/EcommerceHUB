@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
-public class ProductController {
+public class    ProductController {
 
     @Autowired
     private ProductService productService;
