@@ -68,16 +68,19 @@ public class WebSecurityConfig {
                         session ->
                                 session.sessionCreationPolicy(
                                         SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/api/public/**").permitAll()
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/v3/api-docs/**").permitAll()
+                                .requestMatchers("/h2-console/**").permitAll()
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("/api/public/**").permitAll()
 //                        .requestMatchers("/api/admin/**").permitAll()
-                        .requestMatchers("/api/test/**").permitAll()
-                        .requestMatchers("/api/admin/**").permitAll()
-                        .anyRequest().authenticated());
+                                .requestMatchers("/api/test/**").permitAll()
+                                .requestMatchers("/api/admin/**").permitAll()
+                                .requestMatchers("/images/**").permitAll()
+                                .anyRequest().authenticated());
         http.authenticationProvider(daoAuthenticationProvider());
+
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         http.headers(headers -> headers.frameOptions(
                 frameOptionsConfig -> frameOptionsConfig.sameOrigin()));
