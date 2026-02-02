@@ -26,19 +26,17 @@ const useProductFilter = () => {
     }
 
     if (keyword) {
-      params.set("keyword",keyword);
+      params.set("keyword", keyword);
     }
 
-    const queryString=params.toString();
+    const queryString = params.toString();
     console.log(queryString);
-     
+
     dispatch(fetchProducts(queryString));
 
   }, [dispatch, searchParams]);
 
-  return (
-    <div>useProductFilter</div>
-  )
+
 }
 
-export default useProductFilter 
+export default useProductFilter; 

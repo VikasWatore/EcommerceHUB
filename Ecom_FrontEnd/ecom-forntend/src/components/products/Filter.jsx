@@ -3,14 +3,8 @@ import { useEffect, useState } from "react";
 import { Button, FormControl, InputLabel, Menu, MenuItem, Select, Tooltip } from "@mui/material";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
-const Filter = ({categories}) => {
-  // const categories = [
-  //   { categoryId: 1, categoryName: "Electronics" },
-  //   { categoryId: 2, categoryName: "Clothing" },
-  //   { categoryId: 3, categoryName: "Furniture" },
-  //   { categoryId: 4, categoryName: "Books" },
-  //   { categoryId: 5, categoryName: "Toys" },
-  // ];
+const Filter = ({ categories }) => {
+
 
   const [searchParams] = useSearchParams();
   const params = new URLSearchParams(searchParams);
@@ -33,18 +27,18 @@ const Filter = ({categories}) => {
     setSearchTerm(currentSearchTerm);
   }, [searchParams]);
 
-  useEffect(()=>{
-    const handler=setTimeout(() => {
+  useEffect(() => {
+    const handler = setTimeout(() => {
       if (searchTerm) {
-        searchParams.set("keyword",searchTerm);
+        searchParams.set("keyword", searchTerm);
       } else {
         searchParams.delete("keyword");
       }
       navigate(`${pathname}?${searchParams.toString()} `)
     }, 700);
 
-    return ()=>{clearTimeout(handler)}
-  },[searchParams,searchTerm,navigate,pathname] );
+    return () => { clearTimeout(handler) }
+  }, [searchParams, searchTerm, navigate, pathname]);
 
 
   const handleCategoryChange = (event) => {
@@ -67,7 +61,7 @@ const Filter = ({categories}) => {
   };
 
   const handleClearFilters = () => {
-    navigate({pathname :window.location.pathname });
+    navigate({ pathname: window.location.pathname });
   };
 
 
@@ -80,7 +74,7 @@ const Filter = ({categories}) => {
           type="text"
           placeholder="Search Products"
           value={searchTerm}
-          onChange={(e)=>setSearchTerm(e.target.value)}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="border border-gray-400 text-slate-800 rounded-md py-2 pl-10 pr-4 w-full focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
         />
         <FiSearch className="absolute left-3 text-slate-800 size={20}" />
@@ -114,7 +108,7 @@ const Filter = ({categories}) => {
           <Button variant="contained" color="primary" className="flex items-center gap-2 h-10" onClick={toggleSortOrder}>
             Sort By
 
-            {sortOrder === "asc" ?(<FiArrowUp size={20} />):(<FiArrowDown size={20} />)}
+            {sortOrder === "asc" ? (<FiArrowUp size={20} />) : (<FiArrowDown size={20} />)}
 
           </Button>
         </Tooltip>
