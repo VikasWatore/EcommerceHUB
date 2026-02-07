@@ -6,6 +6,7 @@ import ItemContent from './ItemContent';
 import { useEffect } from 'react';
 import { fetchProducts } from '../../store/actions';
 import CartEmpty from './CartEmpty';
+import { formatPrice } from '../../utils/formatPrice';
 
 const Cart = () => {
 
@@ -18,7 +19,7 @@ const Cart = () => {
   })
 
   newCart.totalPrice = cart?.reduce(
-    (acc, cur) => acc * Number(cur?.specialPrice) * Number(cur?.quantity), 0
+    (acc, cur) => acc + Number(cur?.specialPrice) * Number(cur?.quantity), 0
   );
   if (!cart || cart.length === 0) {
     return <CartEmpty />
@@ -66,7 +67,7 @@ const Cart = () => {
         <div className=' flex text-sm gap-1 flex-col'>
           <div className='flex justify-between w-full md:text-lg text-sm font-semibold'>
             <span>Subtotal</span>
-            <span>₹400</span>
+            <span>{formatPrice(newCart?.totalPrice)}</span>
           </div>
           <p className='text-slate-500'>
             Taxes and Shipping calculated at checkout
