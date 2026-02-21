@@ -6,6 +6,7 @@ import { FaAddressCard } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { addUpdateUserAddress } from '../../store/actions';
+import { useEffect } from 'react';
 
 const AddAddressForm = ({ address, setOpenAddressModal }) => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const AddAddressForm = ({ address, setOpenAddressModal }) => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: "onTouched",
@@ -30,6 +32,16 @@ const AddAddressForm = ({ address, setOpenAddressModal }) => {
 
   }
 
+  useEffect(() => {
+    if (address?.addressId) {
+      setValue("buildingName", address?.buildingName);
+      setValue("city", address?.city);
+      setValue("state", address?.state);
+      setValue("pincode", address?.pincode);
+      setValue("street", address?.street);
+      setValue("country", address?.country);
+    }
+  }, [address])
 
 
   return (
@@ -39,7 +51,10 @@ const AddAddressForm = ({ address, setOpenAddressModal }) => {
         className=''>
         <div className='flex items-center justify-center mb-4 font-semibold text-2xl text-slate-800 py-2 px-4'>
           <FaAddressCard className='text-slate-800 text-5xl' />
-          Add Address
+          {!address?.addressId ?
+            "Add Address" :
+            "Update Address"}
+
         </div>
 
         <div className='flex flex-col gap-4'>
