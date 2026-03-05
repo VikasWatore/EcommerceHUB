@@ -6,6 +6,7 @@ import { getUserAddresses } from '../../store/actions';
 import toast from 'react-hot-toast';
 import Skelenton from '../shared/Skelenton';
 import ErrorPage from '../shared/ErrorPage';
+import PaymentMethod from './PaymentMethod';
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ const Checkout = () => {
       ) : (
         <div className='mt-5'>
           {activeStep === 0 && <AddressInfo address={address} />}
+          {activeStep === 1 && <PaymentMethod />}
         </div>
       )}
 
@@ -79,11 +81,11 @@ const Checkout = () => {
                     : false
                 )
               )}
-            className={`bg-custom-blue font-semibold px-6 h-10 rounded-md text-white
+            className={`bg-custom-blue font-semibold px-6 h-10 rounded-md text-white cursor-pointer
             ${errorMessage ||
                 (activeStep === 0 && !selectedUserCheckoutAddress) ||
                 (activeStep === 1 && !paymentMethod)
-                ? "opacity-60"
+                ? "opacity-60 cursor-none"
                 : " "
               }
             `}
@@ -96,7 +98,7 @@ const Checkout = () => {
       </div>
 
       {errorMessage && <ErrorPage message={errorMessage} />}
-</div>
+    </div>
   )
 }
 
