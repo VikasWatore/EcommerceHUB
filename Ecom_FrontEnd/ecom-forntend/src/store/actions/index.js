@@ -94,7 +94,7 @@ export const increaseCartQuantity =
           type: "ADD_CART",
           payload: {
             ...data,
-            quantity: newQuantity + 1
+            quantity: newQuantity
           },
         });
         localStorage.setItem("cartItems", JSON.stringify(getState().carts.cart));
