@@ -83,6 +83,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/api/public/**").permitAll()
 //                        .requestMatchers("/api/admin/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
                                 .requestMatchers("/api/admin/**").permitAll()
                                 .requestMatchers("/images/**").permitAll()
@@ -104,7 +105,10 @@ public class WebSecurityConfig {
         // Allowing necessary HTTP methods
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         // Allowing headers used by the frontend
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+
+        config.setAllowedHeaders(List.of("*"));
+//        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        config.setExposedHeaders(List.of("Authorization"));
         // Allowing credentials if cookies are being used
         config.setAllowCredentials(true);
 

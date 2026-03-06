@@ -238,6 +238,7 @@ public class CartServiceImpl implements CartService {
         cartItem=cartItemRepository.save(cartItem);
     }
 
+    @Transactional
     @Override
     public String createOrUpdateCartWithItems(List<CartItemDTO> cartItems) {
         // getting users email
@@ -257,13 +258,13 @@ public class CartServiceImpl implements CartService {
         double totalPrice=0.00;
          //process each item in the request to add to the cart
         for (CartItemDTO cartItemDTO:cartItems){
-            Long productId=cartItemDTO.getProductDTO().getProductId();
+            Long productId=cartItemDTO.getProductId();
             Integer quantity=cartItemDTO.getQuantity();
          //find the product by ID
             Product product=productRepository.findById(productId)
                     .orElseThrow(()-> new ResourceNotFoundException("Product","productId",productId));
            // Directly Update product stock and total price
-//            product.setQuantity(product.getQuantity()-quantity);
+           // product.setQuantity(product.getQuantity()-quantity);
             totalPrice+=product.getSpecialPrice()*quantity;
 
             //create and save Cart item
