@@ -7,6 +7,9 @@ import toast from 'react-hot-toast';
 import Skelenton from '../shared/Skelenton';
 import ErrorPage from '../shared/ErrorPage';
 import PaymentMethod from './PaymentMethod';
+import OrderSummary from './OrderSummary';
+import StripePayment from './StripePayment';
+import PaypalPayment from './PaypalPayment';
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -14,7 +17,8 @@ const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0);
   const { address, selectedUserCheckoutAddress } = useSelector((state) => state.auth);
   const { isLoading, errorMessage } = useSelector((state) => state.errors);
-  const paymentMethod = false;
+  const { cart, totalPrice } = useSelector((state) => state.carts)
+  const { paymentMethod } = useSelector((state) => state.payment);
 
   const handleBack = () => {
     setActiveStep((prevStep) => prevStep - 1);
@@ -58,6 +62,20 @@ const Checkout = () => {
         <div className='mt-5'>
           {activeStep === 0 && <AddressInfo address={address} />}
           {activeStep === 1 && <PaymentMethod />}
+          {activeStep === 2 && <OrderSummary
+            totalPrice={totalPrice}
+            cart={cart}
+            address={selectedUserCheckoutAddress}
+            paymentMethod={paymentMethod} />}
+          {activeStep === 3 && <>
+
+            {paymentMethod === "Stripe" ?
+              (<StripePayment />)
+              :
+              (<PaypalPayment />)
+
+            }
+          </>}
         </div>
       )}
 
@@ -85,6 +103,7 @@ const Checkout = () => {
             ${errorMessage ||
                 (activeStep === 0 && !selectedUserCheckoutAddress) ||
                 (activeStep === 1 && !paymentMethod)
+
                 ? "opacity-60 cursor-none"
                 : " "
               }

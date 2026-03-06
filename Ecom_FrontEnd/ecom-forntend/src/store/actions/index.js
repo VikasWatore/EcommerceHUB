@@ -273,3 +273,44 @@ export const addPaymentMethod = (method) => {
     payload: method,
   }
 }
+
+export const createUserCart = (sendCartItems) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: "IS_FECTHING" });
+    await api.post('/cart/create', sendCartItems);
+    await dispatch(getUserCart());
+
+
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: "IS_ERROR",
+      payload: error?.response?.data?.messgae || "Failed to Creat cart items",
+    });
+
+  }
+};
+
+
+export const getUserCart = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: "IS_FECTHING" });
+    const { data } = await api.get('/carts/user/cart');
+
+    dispatch({
+      type: "GET_USER_PRODUCTS",
+      payload: data.products,
+      totalPrice: data.totalPrice,
+      cartId: data.cartId
+    })
+    localStorage.setItem("cartItems", JSON.stringify(getState().carts.cart));
+    dispatch({ type: "IS_SUCCESS" });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: "IS_ERROR",
+      payload: error?.response?.data?.messgae || "Failed to Fetch cart items",
+    });
+
+  }
+};
